@@ -25,7 +25,7 @@ namespace AutoWater
             _waterThreshold = _category.CreateEntry("WaterThreshold", 0.3);
             _waterThreshold.Comment = "Water pots when they fall below this percentage. Default is 0.3 (30%)";
 
-            _checkInterval = _category.CreateEntry("CheckInterval", 10.0);
+            _checkInterval = _category.CreateEntry("CheckInterval", 60.0);
             _checkInterval.Comment = "Time (in seconds) between sprinkler checks";
 
             MelonLogger.Msg($"[AutoWater] Config loaded: Threshold={_waterThreshold.Value}, Interval={_checkInterval.Value}");
