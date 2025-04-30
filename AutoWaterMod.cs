@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-[assembly: MelonInfo(typeof(AutoWater.AutoWaterMod), "AutoWater", "0.1.0", "Michiyo")]
+[assembly: MelonInfo(typeof(AutoWater.AutoWaterMod), "AutoWater", "0.2.0", "Michiyo")]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace AutoWater
