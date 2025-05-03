@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-[assembly: MelonInfo(typeof(AutoWater.AutoWaterMod), "AutoWater", "0.2.0", "Michiyo")]
+[assembly: MelonInfo(typeof(AutoWater.AutoWaterMod), "AutoWater", "0.3.0", "Michiyo")]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace AutoWater
@@ -62,9 +62,7 @@ namespace AutoWater
                 var waterMethod = type.GetMethod("Water", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
                 if (getPotsMethod == null || waterMethod == null)
-                {
                     continue;
-                }
 
                 var potList = getPotsMethod.Invoke(obj, null);
                 if (potList == null) continue;
@@ -77,24 +75,25 @@ namespace AutoWater
 
                     var isFilledField = potType.GetProperty("IsFilledWithSoil", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
                     var normWaterLevelProp = potType.GetProperty("NormalizedWaterLevel", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                    var plantProp = potType.GetProperty("Plant", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
-                    if (isFilledField == null || normWaterLevelProp == null)
-                    {
+                    if (isFilledField == null || normWaterLevelProp == null || plantProp == null)
                         continue;
-                    }
 
                     bool isFilled = (bool)isFilledField.GetValue(pot);
                     float waterLevel = (float)normWaterLevelProp.GetValue(pot);
+                    bool hasPlant = plantProp.GetValue(pot) != null;
 
-                    if (isFilled && waterLevel < _waterThreshold.Value)
+                    if (isFilled && hasPlant && waterLevel < _waterThreshold.Value)
                     {
                         waterMethod.Invoke(obj, null);
-                        break; // one pot is enough to trigger watering
+                        break;
                     }
                 }
             }
 
             yield return null;
         }
+
     }
 }
